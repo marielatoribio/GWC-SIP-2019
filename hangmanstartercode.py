@@ -3,7 +3,7 @@ import random
 # A list of words that
 potential_words = ["examplpye", "words", "someone", "can", "guess"]
 
-word = random.choice(potential_words)
+# word = random.choice(potential_words)
 
 # Use to test your code:
 # print(word)
@@ -38,7 +38,7 @@ while fails < maxfails:
 	else:
 		print ("Invalid statement: {guess}")
 	# check if the guess is correct: Is it in the word? If so, reveal the letters!
-
+#add a random commet
 
 	display = ""
 	for i in current_word:
