@@ -1,29 +1,29 @@
-# '''
-# In this program, we print out all the text data from our twitter JSON file.
-# Please explain the comments to students as you code.
-# '''
-
-# We start by importing the JSON library to use for this project.
-# Twitter data is stored in this format - this is the same format
-# students learned for their Survey Project!
 import json
 from textblob import TextBlob
 import matplotlib.pyplot as pit
 from wordcloud import WordCloud
+# n, bins, patches = plt.hist(polarity_list, 50, normed=1, facecolor='g', alpha=0.75)
+#
+# plt.xlabel('Smarts')
+# plt.ylabel('Probability')
+# plt.title('Histogram of IQ')
+# plt.text(60, .025, r'$\mu=100,\ \sigma=15$')
+# plt.axis([40, 160, 0, 0.03])
+# plt.grid(True)
+# plt.show()
 
 text = "hello hello there its me all all"
 wordscloud = WordCloud
 
 # Next we want to open the JSON file. We tag this file as
-# "r" read only because we are only going to look at the data.
+# # "r" read only because we are only going to look at the data.
 tweetFile = open("tweets small.json", "r")
 tweetData = json.load(tweetFile)
 tweetFile.close()
-# We use the JSON library to get data from the file as JSON data.
-tb = TextBlob("You are a brilliant comupter scientist")
-
-# print(tb.polarity)
-
+# # We use the JSON library to get data from the file as JSON data.
+# tb = TextBlob("You are a brilliant comupter scientist")
+#
+# # print(tb.polarity)
 
 
 # print(type(tweetData))
@@ -35,52 +35,109 @@ tb = TextBlob("You are a brilliant comupter scientist")
 
 # # list(newdict.key())
 # print(list(tweetData[0].keys()))
-# print(tweetData[1]["favorite_count"])
-favorite_count = 0
-
-for i in range(0,len(tweetData)):
-	if "favorite_count" in tweetData[i]:
-		favorite_count += tweetData[i]["favorite_count"]
-avg = favorite_count / len(tweetData)
-# print(favorite_count)
-# print(avg)
-
+# # print(tweetData[1]["favorite_count"])
+# favorite_count = 0
+#
+# for i in range(0,len(tweetData)):
+# 	if "favorite_count" in tweetData[i]:
+# 		favorite_count += tweetData[i]["favorite_count"]
+# avg = favorite_count / len(tweetData)
+# # print(favorite_count)
+# # print(avg)
+#
 tweetlist = []
 for t in range(0,len(tweetData)):
 	if "text" in tweetData[t]:
 		tweetlist.append(tweetData[t]["text"])
-# print(tweetlist)
+print(tweetlist)
+
+def wordCount(stringofTweet, string1):
+	counter = 0
+	string1 = string1.lower()
+	wordList = stringofTweet.split(' ')
+	for item in wordList:
+		if item == string1:
+			counter += 1
+	return counter
+
+wordCountList = []
+for item in tweetlist:
+	wordoccurence = wordCount(item, "the")
+	wordCountList.append(wordoccurence)
+
+print(wordCountList)
+print(min(wordCountList), max(wordCountList))
+pit.hist(wordCountList)
+pit.axis([min(wordCountList), max(wordCountList), 0, 10])
+pit.show()
+
 
 polarityList = []
-for iteam in tweetlist:
+for item in tweetlist:
 	blob1 = TextBlob(iteam)
 	polar1 = blob1.polarity
 	polarityList.append(polar1)
-# print(polarityList)
 
-least = []
-for i in range(len(tweetData)):
-	dictionaree = {}
-	dictionaree["id"] = tweetData[i]["id"]
-	dictionaree["polarity"] = polarityList[i]
-	dictionaree["tweet"] = tweetlist[i]
-	least.append(dictionaree)
-# print(least)
+print(polarityList)
+
+#
+#
+# least = []
+# for i in range(len(tweetData)):
+# 	dictionaree = {}
+# 	dictionaree["id"] = tweetData[i]["id"]
+# 	dictionaree["polarity"] = polarityList[i]
+# 	dictionaree["tweet"] = tweetlist[i]
+# 	least.append(dictionaree)
+# # print(least)
+#
+#
+
+
+def countLetter(string, letter):
+	counter = 0
+	for let in string:
+		if let.lower() == letter:
+			counter += 1
+		else:
+			counter += 0
+	print(counter)
+	return counter
 
 
 tweetstring = ""
 for tweet in tweetlist:
-	tweet = " "
 	tweetstring += tweet
-print(tweetstring)
+
+alpha = "qwertyuiopasdfghjklzxcvbnm"
+letters = sorted(alpha)
+
+occurrances = []
+for letter in letters:
+	occurrances.append(countLetter(tweetstring, letter))
+	print(f"letter:{letter} occurrances: {countLetter(tweetstring,letter)}")
+print(occurrances)
+print(min(occurrances), max(occurrances))
+pit.hist(occurrances)
+pit.axis([min(occurrances), max(occurrances), 0, 10])
+pit.show()
 
 
-wordscloud = WordCloud().generate("text")
+
+wordscloud = WordCloud(height = 1000, width = 1000).generate("text")
+pit.figure(figsize = (10,10), facecolor = None)
 pit.imshow(wordscloud, interpolation= 'bilinear')
 pit.axis("off")
 pit.show()
 pit.savefig('alischart.png')
 
+
+print(polarityList)
+print(min(polarityList),min(polarityList))
+pit.hist(polarityList)
+pit.axis([-0.55, 1.05, 0,50])
+pit.show()
+pit.savefig("chart.png")
 
 
 
